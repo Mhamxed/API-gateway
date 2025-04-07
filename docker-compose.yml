@@ -1,0 +1,60 @@
+version: "3.9"
+
+services:
+  # === API Gateway ===
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - user
+      - products
+    volumes:
+      - ./gateway:/app
+    restart: always
+
+  # === User Service ===
+  user:
+    build:
+      context: ./services/user
+      dockerfile: Dockerfile
+    depends_on:
+      - mongo
+    volumes:
+      - ./services/user:/app
+    restart: always
+
+  # === Product Service ===
+  products:
+    build:
+      context: ./services/products
+      dockerfile: Dockerfile
+    depends_on:
+      - redis
+    volumes:
+      - ./services/products:/app
+    restart: always
+
+  # === MongoDB ===
+  mongo:
+    image: mongo:6
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    restart: always
+
+  # === Redis ===
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: always
+
+volumes:
+  mongo_data:
+  redis_data:

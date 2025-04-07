@@ -3,9 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "",
-    "start": "",
-    "build": ""
+    "start": "node dist/index.js",
+    "build": "tsc src/index.ts --outDir dist"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +18,7 @@
   },
   "dependencies": {
     "dotenv": "^16.4.7",
-    "express": "^4.21.2"
+    "express": "^4.21.2",
+    "ioredis": "^5.6.0"
   }
 }

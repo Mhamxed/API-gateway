@@ -10,6 +10,11 @@ This API Gateway is built with TypeScript and Express.js. It serves as a central
 - The API Gateway routes incoming requests to appropriate backend services based on the URL path.
 - It dynamically determines the target service based on service names provided in the request.
 
+### Load balancing
+- Scalability & High Availability: The API Gateway is deployed behind an NGINX load balancer, which distributes incoming requests across multiple gateway instances. This ensures better performance, fault tolerance, and the ability to handle higher traffic loads.
+
+- Can be scalled horizontally via Docker Compose or Kubernetes.
+
 ### Rate Limiting
 - Implemented using a sliding window algorithm using linked lists to prevent abuse by limiting the number of requests from individual clients.
 - Configurable limits based on user authentication or IP address.
@@ -91,6 +96,7 @@ Users can have roles such as admin or user.
 
 - Docker Compose Services
 - gateway: The main API Gateway service.
+- nginx: the round-robin load balancer.
 
 - user: Service for user management, connected to MongoDB.
 
@@ -99,3 +105,22 @@ Users can have roles such as admin or user.
 - mongo: MongoDB instance for user data.
 
 - redis: Redis instance for caching responses.
+
+### Limitations
+
+- No Built-in Monitoring: The current setup lacks integrated monitoring and alerting capabilities, making it harder to track performance and detect issues in real time.
+
+- Static Configuration: NGINX requires manual updates to the configuration file to scale services, which can be cumbersome in dynamic environments.
+
+- No Distributed Tracing: The absence of tracing makes it difficult to debug issues across microservices, particularly in complex interactions.
+
+### Potential Add-On Features
+- Kubernetes Integration: Transition the deployment to Kubernetes for better orchestration, automated scaling, and improved fault tolerance across services.
+
+- Centralized Logging: Implement centralized logging solutions (e.g., ELK Stack) to collect and analyze logs from all services for easier debugging and monitoring.
+
+- Monitoring & Alerting: Integrate Prometheus and Grafana to monitor metrics, visualize performance, and set up alerts for anomalies or system failures.
+
+- Distributed Tracing: Use OpenTelemetry or Jaeger to implement distributed tracing, providing insights into request flow and performance bottlenecks across microservices.
+
+- API Gateway Features: Enhance the gateway with additional features like API versioning, throttling, and advanced authentication mechanisms.
